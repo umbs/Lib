@@ -3,6 +3,19 @@
 /* Global pointer to head of the list */
 Node *HEAD; 
 
+/* Walk the list */
+void walk(Node **head) 
+{
+        if(head == NULL || *head == NULL) {
+                return; 
+        }
+
+        for(; *head != NULL; head = &(*head)->next) 
+                printf("%d ", (*head)->e.key);
+
+        printf("\n"); 
+}
+
 /* Add node to the start of list.
  *
  * Input: Pointer to head of the list. 
@@ -11,48 +24,78 @@ Node *HEAD;
  *         NULL on failure. 
  *
  */
-Node * insertAtStart(Node **head, Node **new) 
+Node * insertAtStart(Node **head, Node **node) 
 {
-        printf("%s:%d \n", __FUNCTION__, __LINE__); 
-
-        if(new == NULL || *new == NULL) {
+        if(node == NULL || head == NULL)
                 return NULL; 
-        }
 
-        printf("%s:%d \n", __FUNCTION__, __LINE__); 
+        (*node)->next = *head; 
+        *head = *node;
 
-        if(head == NULL) {
-                return NULL; 
-        }
-
-        printf("%s:%d \n", __FUNCTION__, __LINE__); 
-
-        /* (*head) can be NULL and indicates no nodes present in list yet */
-
-        (*new)->next = (*head); 
-        head = new;
-
-        return *new; 
+        return *node; 
 }
 
-/* Walk the list */
-void walk(Node **head) 
+/* Add node to the end of list */
+Node *insertAtLast(Node **head, Node **node) 
 {
-        if(head == NULL || *head == NULL) {
-                return; 
+        if(node == NULL || *node == NULL || head == NULL) 
+                return NULL;
+
+        /* empty list */
+        if(*head == NULL) {
+                *head = *node; 
+                return *node; 
         }
 
-        while(*head != NULL) {
-                printf("%d ", (*head)->e.key);
-                (*head) = (*head)->next; 
+        while((*head)->next != NULL) {
+                head = &(*head)->next;   // what if: *head = (*head)->next  
         }
 
-        printf("\n"); 
+        (*head)->next = *node; 
+
+        return *node; 
 }
 
-/* Remove node from the list */
-/* Check if an element is present */
-/* Delete list (by removing all nodes) */
+/* Insert node at correct position */
+Node *insertInOrder(Node **head, Node **node, int ascend) 
+{
+        if(node == NULL || *node == NULL || head == NULL) 
+                return NULL;
+
+        for(; *head != NULL; head = &(*head)->next) {
+                if((*node)->e.key < (*head)->e.key) {
+                        (*node)->next = *head;
+                        *head = *node;
+                        break; 
+                }
+        }
+
+        /* end of list */
+        if(*head == NULL) 
+                *head = *node; 
+
+        return *node; 
+}
+
+
+/* Delete a single node whole key value matches the first key in the list */
+Node *deleteNode(Node **head, Node **node) 
+{
+        if(node == NULL || *node == NULL || head == NULL) 
+                return NULL;
+
+        if(*head == NULL) // list is empty, nothing to delete
+                return NULL;
+
+        for(; *head != NULL; head = &(*head)->next) {
+                if((*node)->e.key == (*head)->e.key) {
+                        *head = (*head)->next; 
+                        break; 
+                }
+        }
+
+        return *node; 
+}
 
 int main() 
 {
@@ -61,15 +104,26 @@ int main()
 
         srand(time(NULL)); 
 
-        for(i=0; i<2; i++) {
+        for(i=0; i<5; i++) {
                 node = malloc(sizeof(Node)); 
                 node->next = NULL; 
                 node->e.key = rand()%20;
 
-                insertAtStart(&HEAD, &node); 
+                printf("%d \n", node->e.key); 
+                //insertAtStart(&HEAD, &node); 
+                //insertAtLast(&HEAD, &node); 
+                insertInOrder(&HEAD, &node, 1); 
         }
 
+        printf("walk: "); 
         walk(&HEAD); 
+
+        deleteNode(&HEAD, &node);
+
+        printf("walk: "); 
+        walk(&HEAD); 
+
+        printf("\n"); 
 
         return 0; 
 }

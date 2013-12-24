@@ -35,8 +35,19 @@ typedef struct __node {
 void walk(Node **head); 
 
 /* Insert node at the start of the list */
-Node * insertAtStart(Node **head, Node **new);
+Node *insertAtStart(Node **head, Node **node);
 
 /* Insert node at the end of the list */
-/* Insert node at correct position in an ordered (ascending) list */
-/* Insert node at correct position in an ordered (descending) list */
+Node *insertAtLast(Node **head, Node **node); 
+
+/* Insert node at correct position in an ordered list */
+Node *insertInOrder(Node **head, Node **node, int ascend); 
+
+/* Remove node */
+Node *deleteNode(Node **head, Node **node); 
+
+/* Check if an element is present */
+int isPresent(Node **head, Node **node); 
+
+/* Delete list (by removing all nodes) */
+int deleteList(Node **head); 

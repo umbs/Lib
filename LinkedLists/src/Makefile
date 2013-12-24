@@ -7,7 +7,7 @@ HEADERS = linkedlist.h
 SOURCES = linkedlist.c test.c  
 
 all: $(OBJS) 
-	$(CC) $(OBJFLAGS) ll $(OBJS) 
+	$(CC) $(OBJFLAGS) ll $(OBJS)
 
 $(OBJS): $(SOURCES) $(HEADERS)
 	$(CC) -c $(DBGS) $(SOURCES) 
