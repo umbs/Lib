@@ -1,3 +1,5 @@
+/* Singly linked list with duplicate entries.  */
+
 #include "linkedlist.h" 
 
 /* Global pointer to head of the list */
@@ -79,22 +81,23 @@ Node *insertInOrder(Node **head, Node **node, int ascend)
 
 
 /* Delete a single node whole key value matches the first key in the list */
-Node *deleteNode(Node **head, Node **node) 
+int deleteNode(Node **head, Node **node) 
 {
         if(node == NULL || *node == NULL || head == NULL) 
-                return NULL;
+                return -1;
 
         if(*head == NULL) // list is empty, nothing to delete
-                return NULL;
+                return -1;
 
         for(; *head != NULL; head = &(*head)->next) {
                 if((*node)->e.key == (*head)->e.key) {
-                        *head = (*head)->next; 
+                        *head = (*head)->next;
+                        free(*node); 
                         break; 
                 }
         }
 
-        return *node; 
+        return 0; 
 }
 
 int main() 
@@ -105,7 +108,13 @@ int main()
         srand(time(NULL)); 
 
         for(i=0; i<5; i++) {
-                node = malloc(sizeof(Node)); 
+                node = malloc(sizeof(Node));
+                
+                if(node == NULL) {
+                        /* failed to alloc mem. Stop */
+                        break; 
+                }
+
                 node->next = NULL; 
                 node->e.key = rand()%20;
 

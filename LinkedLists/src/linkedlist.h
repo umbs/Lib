@@ -44,7 +44,7 @@ Node *insertAtLast(Node **head, Node **node);
 Node *insertInOrder(Node **head, Node **node, int ascend); 
 
 /* Remove node */
-Node *deleteNode(Node **head, Node **node); 
+int deleteNode(Node **head, Node **node); 
 
 /* Check if an element is present */
 int isPresent(Node **head, Node **node); 
