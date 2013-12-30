@@ -10,10 +10,10 @@ pthread_mutex_t   fp_lock;
 /* thread start routine */
 void *readInput(void *arg) 
 {
-        thread_data_t td;
-        char log[WIDTH];
-        const char delim[] = " "; //assuming log file has only space delim 
-        char  *running; 
+        log_entry_t td;
+        char          log[WIDTH];
+        const char    delim[] = " "; //assuming log file has only space delim 
+        char          *running;
 
         /* Critical Section; read file */
         while(!feof(fp)) {
@@ -27,7 +27,7 @@ void *readInput(void *arg)
                  * that to 'log' array. fgets() cannot distinguish between
                  * EOF and error, so, ferror() is required. */
                 if(!fgets(log, WIDTH-2, fp)) {
-                        printf("%s", feof(fp)?"EOF reached":strerror(ferror(fp)));
+                        printf("%s\n", feof(fp)?"EOF reached":strerror(ferror(fp)));
 
                         /* unlock & exit thread */
                         pthread_mutex_unlock(&fp_lock); 
@@ -50,8 +50,8 @@ void *readInput(void *arg)
 
                 printf("%d %s\n", td.time, td.log);
 
-                sched_yield(); 
-                printf("yielding \n");
+		/* thread yield */
+                sched_yield();
         }
 
         /* get lock for heap */
