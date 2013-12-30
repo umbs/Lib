@@ -1,18 +1,7 @@
+#include "../../include/global.h" 
 #include <stdio.h> 
 #include <stdlib.h>
 #include <time.h>
-
-/* 
- * http://www.nongnu.org/avr-libc/user-manual/group__avr__stdint.html
- */
-typedef signed char              int8_t; 
-typedef unsigned char            uint8_t;
-//typedef signed int               int16_t;
-typedef unsigned int             uint16_t;
-//typedef signed long int          int32_t;
-typedef unsigned long int        uint32_t;
-typedef signed long long int     int64_t;
-typedef unsigned long long int   uint64_t;
 
 /* an element (key, value) which will be part of the node in linked list */
 typedef struct __elem {
