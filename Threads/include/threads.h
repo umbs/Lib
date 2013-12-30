@@ -19,19 +19,34 @@ typedef struct __heap {
 /* entry point */
 int pthread_main();
 
-/* heap routines */
-void Heap(int max);
+/* ==============================================*/
+/* Basic heap utility function: insert, extract, */
+/* peek, etc                                     */
+/* ==============================================*/
 
 /* insert a record (key, value) in to the heap */
-void insertHeap(log_entry_t key); 
+void insert(heap_t *heap, log_entry_t key); 
 
 /* return record with max key on heap. Record still is on the heap */ 
-log_entry_t maxHeap(); 
+const log_entry_t *max(const heap_t *heap); 
 
 /* return and delete the record with max key */
-log_entry_t delMaxHeap(); 
+log_entry_t *delMax(heap_t *heap); 
 
-int isEmptyHeap(); 
+/* key swims UP to its intended position */
+int swim(heap_t  *heap, int k); 
+
+/* key sinks DOWN to its intended position */
+int sink(heap_t  *heap, int k);
+
+/* 1 if empty, 0 if not or error */
+int isEmpty(const heap_t  *heap); 
 
 /* return current size of heap */
-int sizeHeap(); 
+int size(const heap_t *heap);
+
+/* 1 if v.time < w.time, 0 otherwise or error */
+int less(heap_t *heap, int i, int j);
+
+/* exchange entries */
+int exch(heap_t *heap, int i, int j); 

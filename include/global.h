@@ -8,6 +8,10 @@
 #include <time.h>      /* time related */
 #include <errno.h>     /* `errno` global variable */ 
 
+#define BAD_ARGS          -1 
+#define BAD_ARGS_PTR      NULL 
+#define SUCCESS           1 
+
 /* 
 Integer types having exactly the specified width
 Source: http://www.nongnu.org/avr-libc/user-manual/group__avr__stdint.html

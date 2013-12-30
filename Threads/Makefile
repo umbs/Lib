@@ -3,9 +3,9 @@ CFLAGS  = -pthread
 OBJFLAGS = -o
 STDFLAGS = -std=c99 
 DBGS    = -ggdb -Wall 
-OBJS    = add.o test.o 
+OBJS    = add.o test.o heap.o 
 HEADERS = include/threads.h 
-SOURCES = src/add.c src/test.c
+SOURCES = src/add.c src/test.c src/heap.c
 BIN     = bin/th 
 
 all: $(OBJS) 
