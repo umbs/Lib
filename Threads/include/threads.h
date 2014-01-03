@@ -16,6 +16,10 @@ typedef struct __heap {
         int cur_size;   /* used while inserting nodes? */
 } heap_t; 
 
+heap_t HEAP; /* global HEAP */
+
+pthread_mutex_t hp_lock; /* for accessing heap */
+
 /* entry point */
 int pthread_main();
 
@@ -24,8 +28,11 @@ int pthread_main();
 /* peek, etc                                     */
 /* ==============================================*/
 
+/* HEAP initialization */
+void init(heap_t *heap); 
+
 /* insert a record (key, value) in to the heap */
-void insert(heap_t *heap, log_entry_t key); 
+void insert(heap_t *heap, log_entry_t *key); 
 
 /* return record with max key on heap. Record still is on the heap */ 
 const log_entry_t *max(const heap_t *heap); 
@@ -49,4 +56,7 @@ int size(const heap_t *heap);
 int less(heap_t *heap, int i, int j);
 
 /* exchange entries */
-int exch(heap_t *heap, int i, int j); 
+int exch(heap_t *heap, int i, int j);
+
+/* heap walk */
+void walk(heap_t *head); 

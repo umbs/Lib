@@ -1,19 +1,25 @@
 CC      = gcc
+
 CFLAGS  = -pthread
 OBJFLAGS = -o
 STDFLAGS = -std=c99 
 DBGS    = -ggdb -Wall 
+
 OBJS    = add.o test.o heap.o 
 HEADERS = include/threads.h 
 SOURCES = src/add.c src/test.c src/heap.c
 BIN     = bin/th 
+ARGS    = src/logs.txt 
 
 all: $(OBJS) 
 	$(CC) $(OBJFLAGS) $(BIN) $(OBJS)
-	make clean
+	# make clean
 
 $(OBJS): $(SOURCES) $(HEADERS)
 	$(CC) -c $(DBGS) $(SOURCES) 
+
+run: 
+	./$(BIN) $(ARGS) 
 
 .PHONY: clean 
 clean: 

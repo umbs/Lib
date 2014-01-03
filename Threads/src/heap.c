@@ -7,16 +7,27 @@
 
 #include "../include/threads.h" 
 
-heap_t  HEAP;     /* global HEAP */  
+/* initialize heap */
+void init(heap_t *heap) 
+{
+        heap = malloc(sizeof(heap_t)); 
+        memset(heap, 0, sizeof(heap_t));
+
+        pthread_mutex_init(&hp_lock, NULL); 
+}
 
 /* 1 if v.time < w.time, 0 otherwise, -1 if bad args  */
 int less(heap_t *heap, int i, int j) 
 {
-	if(heap == NULL) 
-		return BAD_ARGS; 
+	if(heap == NULL) { 
+                ERROR("heap"); 
+		return BAD_ARGS;
+        }
 
-	if(i > size(heap) || j > size(heap)) 
+	if(i > size(heap) || j > size(heap)) { 
+                ERROR("i,j"); 
 		return BAD_ARGS; 
+        }
 
 	return (heap->entry[i].time < heap->entry[j].time); 
 }
@@ -24,8 +35,10 @@ int less(heap_t *heap, int i, int j)
 /* 1 if empty, 0 if not or -1 on error */
 int isEmpty(const heap_t *heap) 
 {
-	if(heap == NULL) 
+	if(heap == NULL) { 
+                ERROR("heap"); 
 		return BAD_ARGS; 
+        }
 
         return heap->cur_size == 0;  
 }
@@ -33,8 +46,10 @@ int isEmpty(const heap_t *heap)
 /* return current size of heap */
 int size(const heap_t *heap) 
 {
-	if(heap == NULL) 
+	if(heap == NULL) { 
+                ERROR("heap"); 
 		return BAD_ARGS; 
+        }
 
 	return heap->cur_size; 
 }
@@ -44,11 +59,15 @@ int size(const heap_t *heap)
  *         1 = success */
 int exch(heap_t *heap, int i, int j)
 {
-	if(heap == NULL) 
+	if(heap == NULL) { 
+                ERROR("heap"); 
 		return BAD_ARGS; 
+        }
 
-	if(i > size(heap) || j > size(heap)) 
+	if(i > size(heap) || j > size(heap)) { 
+                ERROR("heap"); 
 		return BAD_ARGS;
+        }
 
 	log_entry_t    swap; 
 	memset(&swap, 0, sizeof(log_entry_t));
@@ -62,8 +81,10 @@ int exch(heap_t *heap, int i, int j)
 /* key swims UP to its intended position i.e., move entry at 'k' to left */
 int swim(heap_t *heap, int k)
 {
-	if(heap == NULL)
+	if(heap == NULL) {
+                ERROR("heap"); 
 		return BAD_ARGS; 
+        }
 
 	while (k > 1 && less(heap, k/2, k)) {
 		exch(heap, k, k/2); 
@@ -76,8 +97,10 @@ int swim(heap_t *heap, int k)
 /* key sinks DOWN in heap i.e., move entry at 'k' to right */
 int sink(heap_t *heap, int k) 
 {
-	if(heap == NULL)
+	if(heap == NULL) {
+                ERROR("heap"); 
 		return BAD_ARGS; 
+        }
 
 	while(2*k <= heap->cur_size) {
 		int j = 2*k; 
@@ -96,37 +119,72 @@ int sink(heap_t *heap, int k)
 returned makes sense. */
 const log_entry_t *max(const heap_t  *heap) 
 {
-	if(heap == NULL)
+	if(heap == NULL) {
+                ERROR("heap"); 
 		return BAD_ARGS_PTR;
+        }
 
-	return &heap->entry[0];   
+	return &heap->entry[1];   
 }
 
 /* return max record and delete it from heap */
 log_entry_t *delMax(heap_t *heap)
 {
-	if(heap == NULL)
+	if(heap == NULL) {
+                ERROR("heap"); 
 		return BAD_ARGS_PTR;
+        }
 
 	if(isEmpty(heap)) 
 		return NULL; // not a BAD_ARG_PTR  
 
-	/* TODO: Not fully implemented */
+        log_entry_t *entry = malloc(sizeof(log_entry_t)); 
+        memset(entry, 0, sizeof(log_entry_t)); 
 
-	return &heap->entry[0];   
+        /* copy Max record in 'entry' and return it */
+        memcpy(entry, &heap->entry[1], sizeof(log_entry_t)); 
+
+        /* heapify: replace last node with first */
+        exch(heap, 1, heap->cur_size);
+        sink(heap, 1);
+        memset(&heap->entry[heap->cur_size], 0, sizeof(log_entry_t)); 
+        heap->cur_size--; 
+
+	return entry;   
 }
 
-/* insert entries in to Heap. */
-void insert(heap_t *heap, log_entry_t    key)
+/* insert entries in to Heap. 
+ *
+ * Limitations: 
+ * - Currently doesn't support resizing. So, MAX_LOGS is the heap size limit */
+void insert(heap_t *heap, log_entry_t    *key)
 {
-	int       i;
-
  	/* invalid args */
-	if(heap == NULL)
+	if(heap == NULL) {
+                ERROR("heap"); 
 		return ; 
+        }
 
-	for(i=heap->cur_size; i>=0 && (key.time < heap->entry[i].time); i--) 
-		heap->entry[i+1] = heap->entry[i];
+        /* note that entries start from index 1 in heap->entry[] array */
+        memcpy(&heap->entry[++heap->cur_size], key, sizeof(log_entry_t));
 
-	/* TODO: Incomplete routine */        
+        /* heapify */
+        swim(heap, heap->cur_size); 
+}
+
+/* walk the contents of the heap */
+void walk(heap_t *heap) 
+{
+        if(heap == NULL) {
+                ERROR("heap"); 
+                return; 
+        }
+
+        int i=0; 
+
+        __FFL__; 
+
+        /* elements start from 1 */
+        for(i=1; i<= heap->cur_size; i++) 
+                printf("%d %s\n", heap->entry[i].time, heap->entry[i].log); 
 }
