@@ -21,7 +21,10 @@ heap_t HEAP; /* global HEAP */
 pthread_mutex_t hp_lock; /* for accessing heap */
 
 /* entry point */
-int pthread_main();
+int pthread_main(char **argv);
+
+/* entry point for message queues */
+int mq_main(char **argv); 
 
 /* ==============================================*/
 /* Basic heap utility function: insert, extract, */

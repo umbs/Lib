@@ -6,12 +6,14 @@
 #include <stdint.h>
 #include <string.h>    /* memset, memcpy etc */ 
 #include <time.h>      /* time related */
-#include <errno.h>     /* `errno` global variable */ 
+#include <errno.h>     /* `errno` global variable */
+#include <sys/msg.h>   /* message queues & related structs */ 
+#include <sys/ipc.h>   /* ipc calls */ 
 
 #define __FL__            printf("%s:%d\n", __FUNCTION__, __LINE__)
 #define __FFL__           printf("%s:%s:%d\n", __FILE__, __FUNCTION__, __LINE__)
 
-#define ERROR(str)        fprintf(stderr, "ERR:%s:%d Bad args passed: %s\n", \
+#define ERROR(str)        fprintf(stderr, "ERR:%s:%d: %s\n", \
                               __FUNCTION__, __LINE__, (str))  
 
 #define BAD_ARGS          -1 

@@ -8,6 +8,8 @@ int main(int argc, char *argv[])
                 return 0; 
         }
 
-        pthread_main(argv); 
+        //pthread_main(argv);
+        mq_main(argv); 
+
         return 0; 
 }

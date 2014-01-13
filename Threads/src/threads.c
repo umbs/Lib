@@ -2,8 +2,8 @@
  * --------
  * Read data from a file (assume it will be HUGE in future, in the range
  * of 16GB+). Reader/Producer adds entries in to a shared queue (use other
- * IPC mechanisms later: pipes, signals, semaphores). Consumer removes  
- * entries from the queue, adds it to the heap. */
+ * IPC mechanisms later: message queues, pipes, signals, semaphores).
+ * Consumer removes  entries from the queue, adds it to the heap. */
 
 #include "../include/threads.h"
 

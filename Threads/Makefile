@@ -1,19 +1,19 @@
-CC      = gcc
+CC       = gcc
 
-CFLAGS  = -pthread
+CFLAGS   = -pthread
 OBJFLAGS = -o
 STDFLAGS = -std=c99 
-DBGS    = -ggdb -Wall 
+DBGS     = -ggdb -Wall 
 
-OBJS    = add.o test.o heap.o 
-HEADERS = include/threads.h 
-SOURCES = src/add.c src/test.c src/heap.c
-BIN     = bin/th 
-ARGS    = src/logs.txt 
+OBJS     = threads.o test.o heap.o mq.o 
+HEADERS  = include/threads.h 
+SOURCES  = src/threads.c src/test.c src/heap.c src/mq.c 
+BIN      = bin/th 
+ARGS     = src/logs.txt 
 
 all: $(OBJS) 
 	$(CC) $(OBJFLAGS) $(BIN) $(OBJS)
-	# make clean
+	#make clean
 
 $(OBJS): $(SOURCES) $(HEADERS)
 	$(CC) -c $(DBGS) $(SOURCES) 
