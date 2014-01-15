@@ -160,7 +160,9 @@ int mq_main(char *argv[])
 
         __FL__; 
 
-        walk(&HEAP); 
+        walk(&HEAP);
+
+
         fclose(fp); 
 
         return EXIT_SUCCESS; 
