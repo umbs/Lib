@@ -19,7 +19,7 @@
 #define BAD_ARGS          -1 
 #define BAD_ARGS_PTR      NULL 
 #define SUCCESS           1 
-#define ERROR             0 
+#define FAIL              0 
 
 void global_print(void);  
 

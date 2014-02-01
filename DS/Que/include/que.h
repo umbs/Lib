@@ -3,68 +3,54 @@
 
 #include "../../include/global.h"
 
+#define ERR_NOERRORS       0 
+#define ERR_ARGS          -1
+#define ERR_MALLOC        -2
+#define ERR_QFULL         -3
+#define ERR_QEMPTY        -4
+
 /* Circular Buffer. Implementation picked from linux kernel code: 
       include/linux/circ_buf.h 
       Documentation/circular-buffers.txt 
  */
 
+/* GUIDELINES: 
+ * - Adding an elem to Q increments tail. 
+ * - Removing an elem from Q increments head. 
+ * - head never crosses tail. 
+ * - tail == head means empty Q. 
+ * - one elem difference between tail & head means Q is full 
+ */
+
 /* Array based que implementation */
 typedef struct {
-        uint8_t    *que;
-        uint8_t    cur_size; 
-        uint8_t    max_size; 
-        int8_t     head; 
-        int8_t     tail; 
-} QueA;
-
-/* Return count in buffer. */
-#define CIRC_CNT(head,tail,size) (((head) - (tail)) & ((size)-1))
-
-/* Return space available, 0..size-1.  We always leave one free char
-   as a completely full buffer has head == tail, which is the same as
-   empty.  */
-#define CIRC_SPACE(head,tail,size) CIRC_CNT((tail),((head)+1),(size))
-
-/* Return count up to the end of the buffer.  Carefully avoid
-   accessing head and tail more than once, so they can change
-   underneath us without returning inconsistent results.  */
-#define CIRC_CNT_TO_END(head,tail,size) \
-        ({int end = (size) - (tail); \
-          int n = ((head) + end) & ((size)-1); \
-          n < end ? n : end;})
-
-/* Return space available up to the end of the buffer.  */
-#define CIRC_SPACE_TO_END(head,tail,size) \
-        ({int end = (size) - 1 - (head); \
-          int n = (end + (tail)) & ((size)-1); \
-          n <= end ? n : end+1;})
-
-
-/* Linked list based */
-typedef struct {
-} QueL;
+        int        *que;
+        int        max_size; 
+        int        start; 
+        int        end; 
+} Que;
 
 /* Que API's */
 
 /* Initialization */
-int queInitA(QueA **, const uint8_t); 
+int queInit(Que **, const uint8_t); 
 
 /* Add to que */
-int addQA(QueA **, const uint8_t);
+int enQ(Que **, int);
 
 /* Remove from que, from beginning */
-uint8_t removeQA(QueA **); 
+int deQ(Que **); 
 
 /* Return element at head of que, without removing */
-uint8_t peekQA(QueA **); 
-
-/* Que max size */
-uint8_t maxSizeQA(QueA **); 
+int peekQ(Que **); 
 
 /* Que current size */
-uint8_t curSizeQA(QueA **);
+int curSizeQ(Que **);
 
 /* true if empty, false otherwise */
-uint8_t isEmptyQA(QueA **); 
+int isEmptyQ(Que *); 
+
+/* true if empty, false otherwise */
+int isFullQ(Que *); 
 
 #endif 

@@ -18,3 +18,4 @@ que: src/que.c
 .PHONY: clean 
 clean: 
 	rm -rf $(ODIR)/*.o
+	rm -f que
