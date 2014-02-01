@@ -30,6 +30,8 @@ typedef struct {
         int        end; 
 } Que;
 
+Que *Q; 
+
 /* Que API's */
 
 /* Initialization */
@@ -52,5 +54,8 @@ int isEmptyQ(Que *);
 
 /* true if empty, false otherwise */
 int isFullQ(Que *); 
+
+/* list items in Q from start to end */
+void walk(Que **head);
 
 #endif 

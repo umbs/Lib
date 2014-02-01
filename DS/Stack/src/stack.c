@@ -38,14 +38,11 @@ void peekStack(StackA **S)
 }
 
 /* Initialize a stack. Underlying data type: arrays */
-void StackInit(StackA **S, uint8_t MAX_SIZE, type_t TYPE) 
+void StackInit(StackA **S, uint8_t MAX_SIZE) 
 {
         /* log error messages */
 
         if(MAX_SIZE == 0) 
-                return;
-
-        if(TYPE > MAX_TYPE) 
                 return;
 
         *S = malloc(sizeof(StackA)); 
@@ -54,13 +51,12 @@ void StackInit(StackA **S, uint8_t MAX_SIZE, type_t TYPE)
         
         bzero(*S, sizeof(StackA)); 
         (*S)->size = MAX_SIZE;
-        (*S)->type = TYPE; 
 
-        (*S)->data = malloc(sizeof(getSize(TYPE)) * MAX_SIZE);
+        (*S)->data = malloc(sizeof(uint8_t) *  MAX_SIZE);
         if((*S)->data == NULL) // malloc fail  
                 return;
 
-        bzero((*S)->data, sizeof(getSize(TYPE) * MAX_SIZE)); 
+        bzero((*S)->data, sizeof(sizeof(uint8_t) * MAX_SIZE)); 
 }
 
 /* Push an data (uint8_t, as of now) on to stack. When this implementation
@@ -69,21 +65,14 @@ void StackInit(StackA **S, uint8_t MAX_SIZE, type_t TYPE)
  * Input: 
  *      S - reference to Stack 
  *      data - to be inserted 
- *      TYPE - data type 
  * Return 1 on success and 0 on failure */
-int StackPush(StackA **S, uint8_t data, type_t TYPE)
+int StackPush(StackA **S, uint8_t data)
 {
-        if(S == NULL) // invalid reference 
-                return 0; 
-
-        if(*S == NULL) // stack is un-initialized 
+        if(S == NULL || *S == NULL) // invalid reference 
                 return 0; 
 
         if(isFull(S)) // stack is full 
                 return 0;
-
-        if((*S)->type != TYPE) // pushing "incompatible" data type
-                return 0; 
 
         // TODO: For now, assume all data is unint8_t. Figure out how to
         // generalize this. 
@@ -97,10 +86,7 @@ uint8_t StackPop(StackA **S)
 {
         uint8_t data; 
 
-        if(S == NULL) // invalid arg
-                return 0; 
-
-        if(*S == NULL) // un-initialized stack 
+        if(S == NULL || *S == NULL) // invalid arg
                 return 0; 
 
         if(isEmpty(S)) // empty stack, nothing to pop 

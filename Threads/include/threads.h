@@ -1,4 +1,4 @@
-#include "../../include/global.h"
+#include "global.h"
 #include <pthread.h>
 
 #define MAX_LOGS      101

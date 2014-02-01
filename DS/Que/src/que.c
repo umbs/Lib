@@ -1,10 +1,8 @@
-/* Queue implementation using (a) Arrays (b) Linked List */
+
 
 /* NOTES: Trivial exercise for practice */
 
 #include "../include/que.h" 
-
-Que *Q; 
 
 /* Initialize Array based Queues */
 int queInit(Que **head, const uint8_t MAX_SIZE)
@@ -94,8 +92,7 @@ int enQ(Que **head, const int elem)
 /* Return an elem from the head/front of Q */ 
 int deQ(Que **head)
 {
-        int elem, size;
-        int *idx; 
+        int elem, *idx, size; 
 
         if(head == NULL || *head == NULL) 
                 return ERR_ARGS; 
@@ -104,9 +101,11 @@ int deQ(Que **head)
         if(isEmptyQ(*head))
                 return ERR_QEMPTY; 
 
-        idx  = &(*head)->start; 
+        idx  = &(*head)->start;
+        size = (*head)->max_size; 
         elem = (*head)->que[*idx]; 
-        *idx = (++(*idx))%size;  
+        
+        *idx = (++(*idx))%size; // both start and end increments.  
 
         return elem;  
 }
@@ -140,3 +139,25 @@ int curSizeQ(Que **head)
         return 0; 
 }
 
+/* list items in Q from start to end */
+void walk(Que **head) 
+{
+        int i, idx, size, cnt; 
+
+        if(head == NULL || *head == NULL)
+                return ; 
+
+        size = (*head)->max_size; 
+
+        if((*head)->start < (*head)->end) 
+                cnt = (*head)->end - (*head)->start; 
+        else 
+                cnt = (size-(*head)->start) + (*head)->end; 
+
+        for(i=0, idx=(*head)->start; i<cnt; i++) {
+                printf("%d ", (*head)->que[idx]);
+                idx = (idx +1)%size; 
+        }
+
+        printf("\n"); 
+}

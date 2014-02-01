@@ -7,7 +7,7 @@ SDIR    = src
 IDIR    = include 
 
 all: test que 
-	$(CC) bin/test.o bin/que.o -o que 
+	$(CC) bin/test.o bin/que.o -o que.out 
 
 test: src/test.c 
 	$(CC) -c src/test.c -o bin/test.o 
@@ -18,4 +18,4 @@ que: src/que.c
 .PHONY: clean 
 clean: 
 	rm -rf $(ODIR)/*.o
-	rm -f que
+	rm -f *.out
