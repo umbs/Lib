@@ -1,12 +1,17 @@
+#ifndef       __QUE_H__ 
+#define       __QUE_H__ 
+
 #include "../../include/global.h"
 
-/* Circular buffer. Implementation picked from linux kernel code: 
-     See: include/linux/circ_buf.h
-          Documentation/circular-buffers.txt */
+/* Circular Buffer. Implementation picked from linux kernel code: 
+      include/linux/circ_buf.h 
+      Documentation/circular-buffers.txt 
+ */
 
 /* Array based que implementation */
 typedef struct {
-        uint8_t    *que; 
+        uint8_t    *que;
+        uint8_t    cur_size; 
         uint8_t    max_size; 
         int8_t     head; 
         int8_t     tail; 
@@ -57,4 +62,9 @@ uint8_t peekQA(QueA **);
 uint8_t maxSizeQA(QueA **); 
 
 /* Que current size */
-uint8_t curSizeQA(QueA **); 
+uint8_t curSizeQA(QueA **);
+
+/* true if empty, false otherwise */
+uint8_t isEmptyQA(QueA **); 
+
+#endif 

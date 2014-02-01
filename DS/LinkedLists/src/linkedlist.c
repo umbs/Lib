@@ -1,6 +1,6 @@
 /* Singly linked list with duplicate entries.  */
 
-#include "linkedlist.h" 
+#include "../include/linkedlist.h" 
 
 /* Global pointer to head of the list */
 Node *HEAD; 

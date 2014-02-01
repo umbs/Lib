@@ -1,3 +1,6 @@
+#ifndef        __LINKEDLIST_H__
+#define        __LINKEDLIST_H__ 
+
 #include "../../include/global.h" 
 #include <stdio.h> 
 #include <stdlib.h>
@@ -39,4 +42,6 @@ int deleteNode(Node **head, Node **node);
 int isPresent(Node **head, Node **node); 
 
 /* Delete list (by removing all nodes) */
-int deleteList(Node **head); 
+int deleteList(Node **head);
+
+#endif 
