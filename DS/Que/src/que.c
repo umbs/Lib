@@ -1,5 +1,3 @@
-
-
 /* NOTES: Trivial exercise for practice */
 
 #include "../include/que.h" 

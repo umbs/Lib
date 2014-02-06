@@ -1,0 +1,21 @@
+CC      = gcc
+OBJFLAGS = -o
+DBGS    = -ggdb
+
+ODIR    = bin
+SDIR    = src 
+IDIR    = include 
+
+all: test module 
+	$(CC) bin/test.o bin/module.o -o module 
+
+test: src/test.c 
+	$(CC) -c src/test.c -o bin/test.o 
+
+module: src/module.c
+	$(CC) -c src/module.c -o bin/module.o 
+
+.PHONY: clean 
+clean: 
+	rm -rf $(ODIR)/*.o
+	rm module
