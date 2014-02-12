@@ -1,6 +1,6 @@
-#include "../include/shuffle.h"
+#include "../include/insertion.h"
 
-#define ONE_MIL   100000
+#define ONE_MIL   1000
 
 int main() 
 {
@@ -30,10 +30,10 @@ int main()
         }
        
         start = clock(); 
-        shuffleSort(key, ONE_MIL);
+        insertionSort(key, ONE_MIL);
         end = clock(); 
 
-        /*
+        /* 
         for(i=0; i<ONE_MIL; i++) { 
                 fprintf(out, "%d\n", key[i]); 
         }

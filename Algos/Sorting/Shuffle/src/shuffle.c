@@ -1,5 +1,9 @@
 #include "../include/shuffle.h" 
 
+/* Algo description 
+ *
+ * */ 
+
 // ascending order 
 void shuffleSort(int *key, int len) 
 {
