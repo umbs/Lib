@@ -19,3 +19,4 @@ module: src/module.c
 clean: 
 	rm -rf $(ODIR)/*.o
 	rm module
+	find . -name .*.swp | xargs rm -f 

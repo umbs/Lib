@@ -1,3 +1,8 @@
+#if [$# -neq 2]; then 
+#        echo "$0: pass just one arg"
+#        exit 2
+#fi 
+
 # Makefile 
 printf "
 CC          = gcc
