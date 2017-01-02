@@ -1,47 +1,38 @@
 #ifndef        __LINKEDLIST_H__
-#define        __LINKEDLIST_H__ 
+#define        __LINKEDLIST_H__
 
-#include "../../include/global.h" 
-#include <stdio.h> 
+#include "../../include/global.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-/* an element (key, value) which will be part of the node in linked list */
-typedef struct __elem {
-        /* contains length of value[] field and datatype of the key (TODO)
-         * for ANY element to be part of linkedlist */
-        //HEADER; 
-        int    key; 
-        char   value[0]; 
-} Elem; 
-
-/* node in a linked list 
+/* node in a linked list
  * TODO: Make it generic to accept "homogenous" list of, if necessary,
  * user defined data types. Homogenous so as to maintain order. */
 typedef struct __node {
-        struct __node *next; 
-        Elem    e; 
-} Node; 
+        struct __node   *next;
+        int             key;
+} Node;
 
 /* List walk */
-void walk(Node **head); 
+void walk(Node *head);
 
 /* Insert node at the start of the list */
-Node *insertAtStart(Node **head, Node **node);
+Node *insertAtStart(Node **head, int key);
 
 /* Insert node at the end of the list */
-Node *insertAtLast(Node **head, Node **node); 
+Node *insertAtLast(Node **head, int key);
 
 /* Insert node at correct position in an ordered list */
-Node *insertInOrder(Node **head, Node **node, int ascend); 
+Node *insertInOrder(Node **head, int key);
 
 /* Remove node */
-int deleteNode(Node **head, Node **node); 
+int deleteNode(Node **head, int key);
 
-/* Check if an element is present */
-int isPresent(Node **head, Node **node); 
+/* Check if a key present */
+int isPresent(Node **head, int key);
 
 /* Delete list (by removing all nodes) */
 int deleteList(Node **head);
 
-#endif 
+#endif

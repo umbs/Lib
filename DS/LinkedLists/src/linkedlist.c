@@ -1,138 +1,101 @@
 /* Singly linked list with duplicate entries.  */
 
-#include "../include/linkedlist.h" 
+#include "../include/linkedlist.h"
 
 /* Global pointer to head of the list */
-Node *HEAD; 
+Node *HEAD;
 
 /* Walk the list */
-void walk(Node **head) 
-{
-        if(head == NULL || *head == NULL) {
-                return; 
-        }
+void walk(Node *head) {
+    printf("Start: ");
 
-        for(; *head != NULL; head = &(*head)->next) 
-                printf("%d ", (*head)->e.key);
+    for(; head != NULL; head = head->next)
+        printf("%d ", head->key);
 
-        printf("\n"); 
+    printf("End\n");
 }
 
-/* Add node to the start of list.
+/* Add node to the start of list
  *
- * Input: Pointer to head of the list. 
- *        Pointer to new node. 
- * Return: Pointer to inserted node, on success. 
- *         NULL on failure. 
+ * Input: Pointer to head of the list
+ *        Key of node to be inserted
  *
+ * Return: Pointer to inserted node, on success
+ *         NULL on failure
  */
-Node * insertAtStart(Node **head, Node **node) 
-{
-        if(node == NULL || head == NULL)
-                return NULL; 
+Node * insertAtStart(Node **head, int key) {
+    Node *t = malloc(sizeof(Node));
+    if (t == NULL)  return NULL;
 
-        (*node)->next = *head; 
-        *head = *node;
+    t->key = key;
+    t->next = *head;
+    *head = t;
 
-        return *node; 
+    return t;
 }
 
 /* Add node to the end of list */
-Node *insertAtLast(Node **head, Node **node) 
-{
-        if(node == NULL || *node == NULL || head == NULL) 
-                return NULL;
+Node *insertAtLast(Node **head, int key) {
+    Node *t = malloc(sizeof(Node));
+    if (t == NULL)  return NULL;
 
-        /* empty list */
-        if(*head == NULL) {
-                *head = *node; 
-                return *node; 
-        }
+    t->key = key;
+    t->next = NULL;
 
-        while((*head)->next != NULL) {
-                head = &(*head)->next;   // what if: *head = (*head)->next  
-        }
+    Node **ptr = head;
+    while(*ptr != NULL) ptr = &(*ptr)->next;
+    (*ptr)->next = t;
 
-        (*head)->next = *node; 
-
-        return *node; 
+    return t;
 }
 
-/* Insert node at correct position */
-Node *insertInOrder(Node **head, Node **node, int ascend) 
-{
-        if(node == NULL || *node == NULL || head == NULL) 
-                return NULL;
+/* Insert node at correct position, ascending order */
+Node *insertInOrder(Node **head, int key) {
+    if(head == NULL) return NULL;
 
-        for(; *head != NULL; head = &(*head)->next) {
-                if((*node)->e.key < (*head)->e.key) {
-                        (*node)->next = *head;
-                        *head = *node;
-                        break; 
-                }
-        }
+    Node *t = malloc(sizeof(Node));
+    if (t == NULL)  return NULL;
 
-        /* end of list */
-        if(*head == NULL) 
-                *head = *node; 
+    t->key = key;
+    t->next = NULL;
 
-        return *node; 
+    // TBD
+
+    return t;
 }
 
 
 /* Delete a single node whole key value matches the first key in the list */
-int deleteNode(Node **head, Node **node) 
-{
-        if(node == NULL || *node == NULL || head == NULL) 
-                return -1;
+int deleteNode(Node **head, int key) {
+    if(head == NULL || *head == NULL) return -1;
 
-        if(*head == NULL) // list is empty, nothing to delete
-                return -1;
+    Node **ptr = head;
 
-        for(; *head != NULL; head = &(*head)->next) {
-                if((*node)->e.key == (*head)->e.key) {
-                        *head = (*head)->next;
-                        free(*node); 
-                        break; 
-                }
-        }
+    for(; (*ptr)->key != key; ptr = &(*ptr)->next);
+    *ptr = (*ptr)->next;
 
-        return 0; 
+    // TBD: free the deleted node
+
+    return 0;
 }
 
-int main() 
-{
-        Node *node = NULL;
-        int i; 
+int main() {
+    int i, key;
 
-        srand(time(NULL)); 
+    srand(time(NULL));
 
-        for(i=0; i<5; i++) {
-                node = malloc(sizeof(Node));
-                
-                if(node == NULL) {
-                        /* failed to alloc mem. Stop */
-                        break; 
-                }
+    printf("Keys: ");
+    for(i=0; i<10; i++) {
+        key = rand()%20;
+        printf("%d ", key);
+        insertAtStart(&HEAD, key);
+    }
+    printf("\n");
 
-                node->next = NULL; 
-                node->e.key = rand()%20;
+    walk(HEAD);
 
-                printf("%d \n", node->e.key); 
-                //insertAtStart(&HEAD, &node); 
-                //insertAtLast(&HEAD, &node); 
-                insertInOrder(&HEAD, &node, 1); 
-        }
+    deleteNode(&HEAD, key);
+    walk(HEAD);
 
-        printf("walk: "); 
-        walk(&HEAD); 
-
-        deleteNode(&HEAD, &node);
-
-        printf("walk: "); 
-        walk(&HEAD); 
-
-        printf("\n"); 
-
-        return 0; 
+    return 0;
 }
