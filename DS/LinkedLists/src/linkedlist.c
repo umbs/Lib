@@ -69,13 +69,12 @@ Node *insertInOrder(Node **head, int key) {
 int deleteNode(Node **head, int key) {
     if(head == NULL || *head == NULL) return -1;
 
-    Node **ptr = head;
+    Node *ptr;
 
-    for(; (*ptr)->key != key; ptr = &(*ptr)->next);
-    *ptr = (*ptr)->next;
-
-    // TBD: free the deleted node
-
+    for(; (*head)->key != key; head = &(*head)->next);
+    ptr = *head;
+    *head = (*head)->next;
+    free(ptr);
     return 0;
 }
 
